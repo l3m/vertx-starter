@@ -30,7 +30,7 @@ class MainVerticle : AbstractVerticle() {
   }
 
   private val handlerRoot = Handler<RoutingContext> { req ->
-    req.response().end("Welcome!")
+    req.response().endWithJson(makeAttack())
   }
 
   private val handlerAttributes5e = Handler<RoutingContext> { req ->
