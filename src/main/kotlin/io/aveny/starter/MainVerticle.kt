@@ -26,7 +26,7 @@ class MainVerticle : AbstractVerticle() {
 
   private fun createRouter() = Router.router(vertx).apply {
     get("/").handler(handlerRoot)
-    get("/attributes").handler(handlerAttributes5e)
+    get("/roll/:diceCount/:die/:bonus").handler(handlerAttributes5e)
   }
 
   private val handlerRoot = Handler<RoutingContext> { req ->
@@ -34,7 +34,11 @@ class MainVerticle : AbstractVerticle() {
   }
 
   private val handlerAttributes5e = Handler<RoutingContext> { req ->
-    req.response().endWithJson(makeAttributes())
+    val diceCount = req.pathParam("diceCount").toInt()
+    val die = req.pathParam("die").toInt()
+    val bonus = req.pathParam("bonus").toInt()
+    val rr = roll(Roll(diceCount, die, bonus))
+    req.response().endWithJson(rr)
   }
 
   fun HttpServerResponse.endWithJson(obj: Any) {
