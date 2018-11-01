@@ -24,7 +24,7 @@ class TestMainVerticle {
   @Timeout(value = 10, timeUnit = TimeUnit.SECONDS)
   @Throws(Throwable::class)
   fun start_http_server(vertx: Vertx, testContext: VertxTestContext) {
-    vertx.createHttpClient().getNow(8080, "localhost", "/attributes") { response ->
+    vertx.createHttpClient().getNow(8080, "localhost", "/1/8/5") { response ->
       testContext.verify {
         assertTrue(response.statusCode() == 200)
         response.handler { body ->

@@ -1,5 +1,6 @@
 package io.aveny.starter
 
+import dagger.Module
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future
 import io.vertx.core.Handler
@@ -7,10 +8,21 @@ import io.vertx.core.http.HttpServerResponse
 import io.vertx.core.json.Json
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
+import javax.inject.Inject
 
 class MainVerticle : AbstractVerticle() {
 
+  @Inject lateinit var roller: Roller
+
+  init {
+    DaggerAppComponent.builder()
+      .rollerModule(RollerModule)
+      .build()
+      .inject(this)
+  }
+
   override fun start(startFuture: Future<Void>) {
+
     val router = createRouter()
 
     vertx.createHttpServer()
@@ -37,7 +49,7 @@ class MainVerticle : AbstractVerticle() {
     val diceCount = req.pathParam("diceCount").toInt()
     val die = req.pathParam("die").toInt()
     val bonus = req.pathParam("bonus").toInt()
-    val rr = roll(Roll(diceCount, die, bonus))
+    val rr = roller.roll(RollDesc(diceCount, die, bonus))
     req.response().endWithJson(rr)
   }
 
