@@ -24,16 +24,13 @@ class TestMainVerticle {
   @Timeout(value = 10, timeUnit = TimeUnit.SECONDS)
   @Throws(Throwable::class)
   fun start_http_server(vertx: Vertx, testContext: VertxTestContext) {
-    vertx.createHttpClient().getNow(8080, "localhost", "/1/8/5") { response ->
+    vertx.createHttpClient().getNow(8080, "localhost", "/roll/1/8/5") { response ->
       testContext.verify {
         assertTrue(response.statusCode() == 200)
         response.handler { body ->
-          assertTrue(body.toJsonObject().containsKey("str"))
-          assertTrue(body.toJsonObject().containsKey("dex"))
-          assertTrue(body.toJsonObject().containsKey("con"))
-          assertTrue(body.toJsonObject().containsKey("int"))
-          assertTrue(body.toJsonObject().containsKey("wis"))
-          assertTrue(body.toJsonObject().containsKey("cha"))
+          assertTrue(body.toJsonObject().containsKey("desc"))
+          assertTrue(body.toJsonObject().containsKey("stats"))
+          assertTrue(body.toJsonObject().containsKey("result"))
           testContext.completeNow()
         }
       }
