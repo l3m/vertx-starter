@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-object RollerModule {
+object TimeSeriesModule {
 
   @Provides
-  fun provideRoller() : Roller = DefaultRoller()
+  fun provideTimeSeries() : TimeSeries = SimpleTimeSeries()
 }

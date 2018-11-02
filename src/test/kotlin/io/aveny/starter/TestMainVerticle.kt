@@ -16,7 +16,7 @@ class TestMainVerticle {
 
   @BeforeEach
   fun deploy_verticle(vertx: Vertx, testContext: VertxTestContext) {
-    vertx.deployVerticle(`MainVerticle.kt`(), testContext.succeeding<String> { _ -> testContext.completeNow() })
+    vertx.deployVerticle(MainVerticle(), testContext.succeeding<String> { _ -> testContext.completeNow() })
   }
 
   @Test
@@ -28,9 +28,8 @@ class TestMainVerticle {
       testContext.verify {
         assertTrue(response.statusCode() == 200)
         response.handler { body ->
-          assertTrue(body.toJsonObject().containsKey("desc"))
-          assertTrue(body.toJsonObject().containsKey("stats"))
-          assertTrue(body.toJsonObject().containsKey("result"))
+          assertTrue(body.toJsonObject().containsKey("min"))
+          assertTrue(body.toJsonObject().containsKey("max"))
           testContext.completeNow()
         }
       }
