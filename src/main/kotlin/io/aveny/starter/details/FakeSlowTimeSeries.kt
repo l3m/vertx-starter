@@ -1,8 +1,10 @@
-package io.aveny.starter
+package io.aveny.starter.details
 
+import io.aveny.starter.MinMax
+import io.aveny.starter.TimeSeries
 import kotlin.random.Random
 
-class SimpleTimeSeries(override val size : Int = 100_000) : TimeSeries {
+class FakeSlowTimeSeries(override val size : Int = 100_000) : TimeSeries {
   override val values : DoubleArray = DoubleArray(size)
 
   init {

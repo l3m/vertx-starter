@@ -103,7 +103,8 @@ run {
     mainVerticleName,
     "--redeploy=$watchForChange",
     "--launcher-class=$mainClassName",
-    "--on-redeploy=$doOnChange"]
+    "--on-redeploy=$doOnChange",
+    "--instances=4"]
 }
 
 task {
