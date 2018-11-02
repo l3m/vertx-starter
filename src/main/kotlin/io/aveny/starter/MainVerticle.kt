@@ -37,15 +37,21 @@ class MainVerticle : AbstractVerticle() {
   }
 
   private fun createRouter() = Router.router(vertx).apply {
-    get("/").handler(handlerRoot)
+    get("/").handler(rootHandler)
     get("/roll/:diceCount/:die/:bonus").handler(handlerAttributes5e)
   }
 
-  private val handlerRoot = Handler<RoutingContext> { req ->
-    req.response().endWithJson(makeAttack())
+  private val rootHandler = Handler<RoutingContext> { req ->
+    vertx.executeBlocking({ future : Future<MinMax>->
+      // Call some blocking API that takes a significant amount of time to return
+      val result = TimeSeries().findMinMax()
+      future.complete(result)
+    }, { res ->
+        req.response().endWithJson(res.result())
+    })
   }
 
-  private val handlerAttributes5e = Handler<RoutingContext> { req ->
+    private val handlerAttributes5e = Handler<RoutingContext> { req ->
     val diceCount = req.pathParam("diceCount").toInt()
     val die = req.pathParam("die").toInt()
     val bonus = req.pathParam("bonus").toInt()
